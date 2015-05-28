@@ -1,0 +1,40 @@
+<h1>Listing fingerprints</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <div id="content">
+    <h3>fingerprint stuff</h3>
+
+
+    <%= form_tag({action: :upload}, multipart: true) do %>
+      <%= file_field_tag 'picture' %>
+      <%= submit_tag "Upload" %>
+    <% end %>
+
+  </div>
+
+  <div id="originals">
+    <%  Dir.foreach(Rails.root.join('app', 'assets', 'images')) do |f| %>
+      <% next unless f.match(".png") %>
+      <%= image_tag("#{f}", size: "300") %>
+      <%= link_to("convert", :controller => :fingerprints, :action => :convert, :name => f) %>
+    <% end %>
+  </div>
+
+</table>
+
+<br>
+
+<table>
+  <div id="converted">
+    <% Dir.foreach(Rails.root.join("app","assets","images","converts")) do |f| %>
+      <% next unless f.match(".png") %>
+      <%= image_tag("converts/#{f}", size: "300") %>
+    <% end %>
+  </div>
+</table>
